@@ -13,21 +13,21 @@ interface Article {
 const articles: Article[] = [
   {
     id: 1,
-    title: "Breaking News: Next.js is awesome!",
+    title: "Aexhy's new EP out!",
     content:
-      "Next.js is a powerful React framework for building fast, modern web applications.",
+      "We're pleased to announce this release.",
     imageUrl: "/Aexhy.jpeg",
   },
   {
     id: 2,
-    title: "Tailwind CSS: Utility-First Styling",
+    title: "Syndikaet and GIB are teaming up",
     content:
       "Tailwind CSS is a utility-first CSS framework that makes styling easy and efficient.",
     imageUrl: "/pico.jpeg",
   },
   {
     id: 3,
-    title: "JavaScript: The Language of the Web",
+    title: "Sonny Smiles releases a new podcast",
     content:
       "JavaScript continues to dominate as the most popular language for web development.",
     imageUrl: "/sonnysmiles.jpg",
@@ -46,7 +46,7 @@ const Blog: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mb-20">
+    <div className="max-w-4xl mx-auto">
       <div className="marquee">
         <div className="track">
           <div className="content">
@@ -56,17 +56,17 @@ const Blog: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 ">
         {articles.map((article) => (
           <div
             key={article.id}
-            className="bg-white h-32 cursor-pointer flex hover:bg-gray-100 border-b-2 border-black"
+            className="bg-white h-29 cursor-pointer flex hover:bg-gray-100 border-b-2 border-black rounded-br-xl"
             onClick={() => openArticle(article)}
           >
             <Image
               src={article.imageUrl}
               alt={article.title}
-              className="object-cover"
+              className="object-cover w-28 h-28"
               width={160}
               height={160}
               unoptimized={true}
