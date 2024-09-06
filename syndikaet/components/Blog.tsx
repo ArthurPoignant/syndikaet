@@ -22,14 +22,14 @@ const articles: Article[] = [
     id: 2,
     title: "Syndikaet and GIB are teaming up",
     content:
-      "Tailwind CSS is a utility-first CSS framework that makes styling easy and efficient.",
+      "For a serie of event at Lokschuppen.",
     imageUrl: "/pico.jpeg",
   },
   {
     id: 3,
     title: "Sonny Smiles releases a new podcast",
     content:
-      "JavaScript continues to dominate as the most popular language for web development.",
+      "Be ready for an hour and a half of ambient trance.",
     imageUrl: "/sonnysmiles.jpg",
   },
 ];
@@ -49,7 +49,7 @@ const Blog: React.FC = () => {
     <div className="max-w-4xl mx-auto">
       <div className="marquee">
         <div className="track">
-          <div className="content">
+          <div className="content ">
             &nbsp;NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS
             NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS NEWS
             NEWS NEWS NEWS
@@ -60,20 +60,20 @@ const Blog: React.FC = () => {
         {articles.map((article) => (
           <div
             key={article.id}
-            className="bg-white h-29 cursor-pointer flex hover:bg-gray-100 border-b-2 border-black rounded-br-xl"
+            className="bg-white h-29 cursor-pointer flex hover:bg-gray-100 border-b-2 border-grey rounded-br-xl"
             onClick={() => openArticle(article)}
           >
             <Image
               src={article.imageUrl}
               alt={article.title}
-              className="object-cover w-28 h-28"
+              className="object-cover w-28 h-28 border-r-2 border-grey"
               width={160}
               height={160}
               unoptimized={true}
               /* fill */
             />
             <div className="ml-3 flex flex-col justify-around">
-              <h3 className="text-xl">{article.title}</h3>
+              <h3 className="text-xl font-light text-black sm:text-md">{article.title}</h3>
               <p className="mt-2 text-gray-600 font-light">
                 {article.content.substring(0, 50)}...
               </p>
