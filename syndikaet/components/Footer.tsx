@@ -4,25 +4,25 @@ import logo from "../public/logo.png";
 
 export default function Footer() {
   return (
-    <footer className="bg-white">
+    <footer className="bg-black">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
             <div>
-              <ul className="text-black font-medium">
+              <ul className="text-white font-medium">
                 <li className="mb-0">
-                  <a href="https://flowbite.com/" className="hover:underline mx-auto mb-8 max-w-2xl font-light text-black md:mb-12 sm:text-lg">
+                  <a href="https://flowbite.com/" className="hover:underline mx-auto mb-8 max-w-2xl font-light text-white md:mb-12 sm:text-lg">
                     Account
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <ul className="text-black font-medium">
+              <ul className="text-white font-medium">
                 <li>
                   <a
                     href="https://tailwindcss.com/"
-                    className="hover:underline mx-auto mb-8 max-w-2xl font-light text-black md:mb-12 sm:text-lg"
+                    className="hover:underline mx-auto mb-8 max-w-2xl font-light text-white md:mb-12 sm:text-lg"
                   >
                     Contact
                   </a>
@@ -33,7 +33,7 @@ export default function Footer() {
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm mb-8 max-w-2xl font-light text-black md:mb-12 sm:text-md">
+          <span className="text-sm mb-8 max-w-2xl font-light text-white md:mb-12 sm:text-md">
             © 2024{" "}
             <a href="https://syndikaet.com/" className="hover:underline">
               Syndikaet™
@@ -57,7 +57,7 @@ export default function Footer() {
               </svg>
               <span className="sr-only">Facebook page</span>
             </a>
-            <a href="#" className="text-black ms-5">
+            <a href="#" className="text-white ms-5">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -69,7 +69,7 @@ export default function Footer() {
               </svg>
               <span className="sr-only">Discord community</span>
             </a>
-            <a href="#" className="text-black ms-5">
+            <a href="#" className="text-white ms-5">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"

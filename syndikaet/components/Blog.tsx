@@ -56,11 +56,11 @@ const Blog: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 ">
+      <div className="grid grid-cols-1 m-5">
         {articles.map((article) => (
           <div
             key={article.id}
-            className="bg-white h-29 cursor-pointer flex hover:bg-gray-100 border-b-2 border-grey rounded-br-xl"
+            className="bg-white h-29 cursor-pointer flex hover:bg-gray-100 border-b-2 border-grey"
             onClick={() => openArticle(article)}
           >
             <Image

@@ -54,7 +54,7 @@ const Artists: React.FC = () => {
           clickable: true,
         }}
         modules={[Pagination]}
-        className="mySwiper"
+        className="mySwiper p-5"
       >
         {artists.map((artist, index) => (
           <SwiperSlide key={index}>
