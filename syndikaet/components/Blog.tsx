@@ -46,7 +46,7 @@ const Blog: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <section id="news" className="max-w-4xl mx-auto">
       <div className="marquee">
         <div className="track">
           <div className="content ">
@@ -60,21 +60,21 @@ const Blog: React.FC = () => {
         {articles.map((article) => (
           <div
             key={article.id}
-            className="bg-white h-29 cursor-pointer flex hover:bg-gray-100 border-b-2 border-grey"
+            className="bg-white h-29 cursor-pointer flex hover:bg-gray-100 border-b-2 border-gray-50"
             onClick={() => openArticle(article)}
           >
             <Image
               src={article.imageUrl}
               alt={article.title}
-              className="object-cover w-28 h-28 border-r-2 border-grey"
+              className="object-cover w-28 h-28"
               width={160}
               height={160}
               unoptimized={true}
               /* fill */
             />
             <div className="ml-3 flex flex-col justify-around">
-              <h3 className="text-xl font-light text-black sm:text-md">{article.title}</h3>
-              <p className="mt-2 text-gray-600 font-light">
+              <h3 className="text-xl font-normal text-black sm:text-md">{article.title}</h3>
+              <p className="mt-2 text-gray-600 font-thin italic">
                 {article.content.substring(0, 50)}...
               </p>
             </div>
@@ -104,7 +104,7 @@ const Blog: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

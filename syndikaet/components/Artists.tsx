@@ -38,7 +38,7 @@ const artists: Artist[] = [
 
 const Artists: React.FC = () => {
   return (
-    <div className="w-full flex flex-col h-34 mx-auto mb-12 relative">
+    <section id="all-stars" className="w-full flex flex-col h-34 mx-auto mb-12 relative">
       <Image
         src={titleSvg}
         alt={titleSvg.name}
@@ -48,7 +48,7 @@ const Artists: React.FC = () => {
         unoptimized={true}
       />
       <Swiper
-        slidesPerView={3}
+        slidesPerView={2}
         spaceBetween={30}
         pagination={{
           clickable: true,
@@ -67,12 +67,11 @@ const Artists: React.FC = () => {
                 height={100}
                 unoptimized={true}
               />
-              <h2 className="absolute text-white mx-auto bottom-0 text-4xl font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl">{artist.name}</h2>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </section>
   );
 };
 
