@@ -2,11 +2,11 @@ import Link from "next/link";
 
 function Navbar() {
   return (
-    <div className="w-full flex justify-between items-center pt-4 pb-4 px-10 border-t-2 border-gray-50">
-      <Link className="border-2 border-black w-14 h-7 text-center px-1 rounded-md" href="#news">News</Link>
-      <Link className="border-2 border-black min-w-14 h-7 text-center px-1 rounded-md" href="#all-stars">Syndikaet All-stars</Link>
-      <Link className="border-2 border-black w-14 h-7 text-center px-1 rounded-md" href="#shop">Shop</Link>
-      <Link className="border-2 border-black min-w-14 h-7 text-center px-1 rounded-md" href="#newsletter">Newsletter</Link>
+    <div className="w-full flex m-auto justify-between items-center sticky top-0 pt-4 pb-4 px-10 z-40 backdrop-blur-sm">
+      <Link className="border-2 border-black bg-white w-40 h-7 text-center px-1 rounded-md hover:bg-black hover:text-white" href="#news">News</Link>
+      <Link className="border-2 border-black bg-white w-40 h-7 text-center px-1 rounded-md hover:bg-black hover:text-white" href="#all-stars">Syndikaet All-stars</Link>
+      <Link className="border-2 border-black bg-white w-40 h-7 text-center px-1 rounded-md hover:bg-black hover:text-white" href="#shop">Shop</Link>
+      <Link className="border-2 border-black  bg-white w-40 h-7 text-center px-1 rounded-md hover:bg-black hover:text-white" href="#newsletter">Newsletter</Link>
     </div>
   );
 }

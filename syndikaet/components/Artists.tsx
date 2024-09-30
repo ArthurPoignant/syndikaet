@@ -38,7 +38,10 @@ const artists: Artist[] = [
 
 const Artists: React.FC = () => {
   return (
-    <section id="all-stars" className="w-full flex flex-col h-34 mx-auto mb-12 relative">
+    <section
+      id="all-stars"
+      className="w-full flex flex-col h-34 mx-auto mb-12 relative"
+    >
       <Image
         src={titleSvg}
         alt={titleSvg.name}
@@ -57,16 +60,22 @@ const Artists: React.FC = () => {
         className="mySwiper p-5"
       >
         {artists.map((artist, index) => (
-          <SwiperSlide key={index}>
-            <div className="flex flex-col rounded-xl">
-              <Image
-                src={artist.imageUrl}
-                alt={artist.name}
-                className="object-cover"
-                width={100}
-                height={100}
-                unoptimized={true}
-              />
+          <SwiperSlide key={index} className="bg-inherit">
+            <div className="shadow-lg rounded-lg overflow-hidden max-w-xs mx-auto">
+              <div className="relative w-full h-64">
+                <Image
+                  src={artist.imageUrl}
+                  alt={artist.name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full"
+                />
+              </div>
+              <div className="p-4 bg-black">
+                <h2 className="text-xl font-semibold text-white">
+                  {artist.name}
+                </h2>
+              </div>
             </div>
           </SwiperSlide>
         ))}
