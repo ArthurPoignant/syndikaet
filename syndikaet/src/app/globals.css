@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* body {
   max-width: 1440px;
-}
+} */
 
 #news {
   background-color: rgb(249 250 251);
