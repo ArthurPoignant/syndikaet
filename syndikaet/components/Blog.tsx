@@ -14,22 +14,19 @@ const articles: Article[] = [
   {
     id: 1,
     title: "Aexhy's new EP out!",
-    content:
-      "We're pleased to announce this release.",
+    content: "We're pleased to announce this release.",
     imageUrl: "/Aexhy.jpeg",
   },
   {
     id: 2,
     title: "Syndikaet and GIB are teaming up",
-    content:
-      "For a serie of event at Lokschuppen.",
+    content: "For a serie of event at Lokschuppen.",
     imageUrl: "/pico.jpeg",
   },
   {
     id: 3,
     title: "Sonny Smiles releases a new podcast",
-    content:
-      "Be ready for an hour and a half of ambient trance.",
+    content: "Be ready for an hour and a half of ambient trance.",
     imageUrl: "/sonnysmiles.jpg",
   },
 ];
@@ -57,6 +54,9 @@ const Blog: React.FC = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 m-5">
+        <svg className="w-8 h-8 ml-auto mb-4 border-2 border-black bg-white rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+        </svg>
         {articles.map((article) => (
           <div
             key={article.id}
@@ -73,7 +73,9 @@ const Blog: React.FC = () => {
               /* fill */
             />
             <div className="ml-3 flex flex-col justify-around">
-              <h3 className="text-xl font-normal text-black sm:text-md">{article.title}</h3>
+              <h3 className="text-xl font-normal text-black sm:text-md">
+                {article.title}
+              </h3>
               <p className="mt-2 text-gray-600 font-thin italic">
                 {article.content.substring(0, 50)}...
               </p>

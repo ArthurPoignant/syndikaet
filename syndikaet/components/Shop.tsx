@@ -63,12 +63,16 @@ const Shop = () => {
       </div>
 
       <div className="w-full max-w-full p-4 flex flex-wrap justify-around mx-auto">
+      <svg className="w-8 h-8 ml-auto mb-4 border-2 border-black bg-white rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+        </svg>
         {activeSection === "Merch"
           ? products.map((product, index) => (
               <div
                 key={index}
-                className="bg-white shadow-lg rounded-lg overflow-hidden w-80 mx-auto mb-8"
+                className="bg-black text-white shadow-lg rounded-lg overflow-hidden w-80 mx-auto mb-8"
               >
+                
                 {/* Image de l'article */}
                 <div className="relative w-full h-64">
                   <Image
@@ -83,16 +87,16 @@ const Shop = () => {
                 {/* Détails de l'article */}
                 <div className="p-4 flex flex-col">
                   <div className="flex justify-between">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                  <h2 className="text-lg font-semibold text-white mb-2">
                     {product.name}
                   </h2>
-                  <p className="text-gray-600 mb-4 ml-auto">${product.price}</p>
+                  <p className="text-white mb-4 ml-auto">${product.price}</p>
                   </div>
 
                   {/* Bouton Ajouter au panier */}
                   <button
                     onClick={() => console.log(product)}
-                    className="w-48 bg-blue-500 text-white px-4 py-2 ml-auto rounded-lg hover:bg-blue-600 transition"
+                    className="w-48 bg-pink-300 text-white px-4 py-2 ml-auto rounded-lg hover:bg-blue-400 transition"
                   >
                     Ajouter au panier
                   </button>
@@ -102,7 +106,7 @@ const Shop = () => {
           : products.map((product, index) => (
               <div
                 key={index}
-                className="w-full h-32 flex justify-between flex-row bg-white border border-gray-200"
+                className="w-full h-32 flex justify-between flex-row bg-gray-700 border border-gray-200"
               >
                 <a href="#">
                   <Image
@@ -115,14 +119,14 @@ const Shop = () => {
                 </a>
                 <div className="p-5 w-full flex flex-row items-center justify-between">
                   <div>
-                    <h5 className="text-lg font-semibold tracking-tight text-gray-900">
+                    <h5 className="text-lg font-semibold tracking-tight text-white">
                       {product.name}{" "}
-                      <p className="text-gray-700 text-sm">Track name</p>
+                      <p className="text-white text-sm">Track name</p>
                     </h5>
-                    <p className="text-gray-500">Duration: 3min46</p>
+                    <p className="text-white">Duration: 3min46</p>
                   </div>
                   <div className="w-32 flex items-center justify-between">
-                    <span className="text-xl font-medium text-gray-900">
+                    <span className="text-xl font-medium text-white">
                       {product.price}€
                     </span>
                     <a

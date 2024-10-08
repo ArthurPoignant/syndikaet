@@ -10,7 +10,7 @@ interface UserAttributes {
   password: string; // In practice, you should store a hashed password
   address?: string; // Optional
   phoneNumber?: string; // Optional
-  isPremium: boolean; // Whether the user has a premium subscription
+  isPremium?: boolean; // Whether the user has a premium subscription
   role: 'user' | 'admin'; // Role of the user (either 'user' or 'admin')
 }
 
@@ -25,7 +25,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public password!: string;
   public address?: string;
   public phoneNumber?: string;
-  public isPremium!: boolean;
+  public isPremium?: boolean;
   public role!: 'user' | 'admin';
 
   // Timestamps

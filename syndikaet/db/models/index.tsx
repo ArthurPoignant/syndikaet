@@ -1,14 +1,19 @@
 import { Sequelize } from 'sequelize';
-import { Dialect } from 'sequelize';
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME as string,
-  process.env.DB_USER as string,
-  process.env.DB_PASSWORD as string,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT as Dialect,
-  }
-);
+const sequelize = new Sequelize('syndikaet', 'root', 'root', {
+  host: 'localhost',
+  port: 3306,
+  dialect: 'mysql',
+  dialectModule: require('mysql2'),
+  logging: console.log,
+});
+
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 export default sequelize;
