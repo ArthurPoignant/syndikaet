@@ -44,7 +44,7 @@ const Artists: React.FC = () => {
     >
       <Image
         src={titleSvg}
-        alt={titleSvg.name}
+        alt="logo"
         className="w-60 h-30 m-auto mb-5"
         width={100}
         height={100}
@@ -70,6 +70,8 @@ const Artists: React.FC = () => {
                 <Image
                   src={artist.imageUrl}
                   alt={artist.name}
+                  /* width={100}
+                  height={100} */
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full"

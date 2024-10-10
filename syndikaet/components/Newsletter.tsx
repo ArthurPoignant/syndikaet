@@ -13,7 +13,7 @@ export default function Newsletter() {
             <div className="items-center mx-auto mb-3 space-y-4 max-w-screen-sm sm:flex sm:space-y-0">
               <div className="relative w-full">
                 <label
-                  htmlFor="email"
+                  htmlFor="newsletterEmail"
                   className="hidden mb-2 text-sm font-medium text-black"
                 >
                   Email address
@@ -33,7 +33,7 @@ export default function Newsletter() {
                   className="block p-3 pl-10 w-full text-sm text-black bg-gray-50 border border-black focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Enter your email"
                   type="email"
-                  id="email"
+                  id="newsletterEmail"
                 />
               </div>
               <div>

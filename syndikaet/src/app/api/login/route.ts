@@ -1,43 +1,37 @@
 import sequelize from '../../../../db/models/index';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
-import User from '../../../../db/models/user'; // Assurez-vous que le chemin vers votre modèle est correct
+import User from '../../../../db/models/user'; // Ensure the path to your model is correct
 
 export async function POST(req: Request) {
-    await sequelize.sync();
+  await sequelize.sync();
   try {
-    const { email, password } = await req.json(); // Remplacer "username" par "email"
-
-    console.log('Email:', email, 'Password:', password); // Log pour déboguer
-
-    // Recherche de l'utilisateur avec l'email
+    const { email, password } = await req.json();
+    
+    // Find the user by email
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      console.log('Utilisateur non trouvé');
+      console.log('User not found');
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
-    // Vérification du mot de passe
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    console.log(isPasswordValid)
+    const isPasswordValid = bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      console.log('Mot de passe incorrect');
+      console.log('Incorrect password');
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
-    if (!isPasswordValid) {
-      console.log('Mot de passe incorrect');
-      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
-    }
+    // If the login is successful
+    console.log('Login successful from the backend');
+    return NextResponse.json(
+      { message: 'Login successful', user: { id: user.id, email: user.email } },
+      { status: 200 }
+    );
 
-    // Si la connexion est réussie
-    console.log('Connexion réussie');
-    return NextResponse.json({ message: 'Login successful', user: { id: user.id, email: user.email } }, { status: 200 });
-   
   } catch (error) {
-    console.error('Erreur de connexion:', error);
+    console.error('Login error:', error);
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
 }

@@ -1,4 +1,5 @@
 import "tailwindcss/tailwind.css";
+import './globals.css';
 import logoFull from "../../public/logoFull.jpeg";
 import Header from "../../components/Header";
 import Blog from "../../components/Blog";

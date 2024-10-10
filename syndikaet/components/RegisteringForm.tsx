@@ -33,7 +33,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
         const errorMessage = await res.text();
         setError(errorMessage || 'Registration error');
       } else {
-        onRegister(); // Call the parent function to handle registration success
+        onRegister();
       }
     } catch (err) {
       setError('An unexpected error occurred');

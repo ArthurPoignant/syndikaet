@@ -5,7 +5,7 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
-  const [email, setEmail] = useState<string>(''); // Utiliser "email" au lieu de "username"
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
 
@@ -25,9 +25,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       if (!res.ok) {
         setError('Invalid credentials');
       } else {
-        onLogin(); // Appelle la fonction parent en cas de succès
+        onLogin();
       }
     } catch (err) {
+      console.error(err)
+      console.log(err)
       setError('An unexpected error occurred');
     }
   };
@@ -37,7 +39,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       <h2 className="mb-4 text-lg font-bold">Login</h2>
       {error && <p className="text-red-500">{error}</p>}
       <div className="mb-4">
-        <label className="block mb-1" htmlFor="loginEmail">Email</label> {/* Remplace "username" par "email" */}
+        <label className="block mb-1" htmlFor="loginEmail">Email</label>
         <input
           type="email"
           id="loginEmail"
