@@ -2,13 +2,13 @@ import "tailwindcss/tailwind.css";
 import './globals.css';
 import logoFull from "../../public/logoFull.jpeg";
 import Header from "../../components/Header";
-import Blog from "../../components/Blog";
-import Artists from "../../components/Artists";
+import Blog from "../../components/blog/Blog";
+import Artists from "../../components/artist/Artists";
 import Image from "next/image";
 import Footer from "../../components/Footer";
 import Newsletter from "../../components/Newsletter";
 import Navbar from "../../components/Navbar";
-import Shop from "../../components/Shop";
+import Shop from "../../components/shop/Shop";
 
 export default function Home() {
   return (

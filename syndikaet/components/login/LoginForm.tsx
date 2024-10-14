@@ -21,6 +21,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         },
         body: JSON.stringify({ email, password }),
       });
+      const data = await res.json();
+      
+      if (!res.ok) {
+        if (data.message) {
+          setError(data.message);
+        } else {
+          setError('Invalid credentials');
+        }
+      } else if (data.token) {
+        // Store the token in localStorage or a secure cookie
+        localStorage.setItem('authToken', data.token);
+        onLogin();
+      } else {
+        setError('Login successful, but no token received');
+      }
 
       if (!res.ok) {
         setError('Invalid credentials');

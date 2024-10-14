@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import Newsletter from "../../../components/Newsletter";
-import LoginForm from "../../../components/LoginForm";
-import RegisterForm from "../../../components/RegisteringForm";
+import LoginForm from "../../../components/login/LoginForm";
+import RegisterForm from "../../../components/login/RegisteringForm";
 
 export default function Login() {
   const router = useRouter();
