@@ -8,7 +8,7 @@ export async function PUT(
 ) {
   await sequelize.sync();
   try {
-    const { name, description, price, stock, imageUrl } = await req.json();
+    const { title, artist, price, releaseDate, url, cover } = await req.json();
 
     const track = await Track.findByPk(params.id);
     if (!track) {
@@ -18,9 +18,12 @@ export async function PUT(
       );
     }
 
-    track.title = name || track.title;
+    track.title = title || track.title;
+    track.artist = artist || track.artist;
     track.price = price || track.price;
-    track.url = imageUrl || track.url;
+    track.url = url || track.url;
+    track.releaseDate = releaseDate || track.releaseDate;
+    track.cover = cover || track.cover;
 
     await track.save();
 

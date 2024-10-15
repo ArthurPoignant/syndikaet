@@ -5,10 +5,11 @@ import Artist from './artist';
 interface TrackAttributes {
   id: number;
   title: string;
-  artistId: number;
+  artist: string;
   price: number;
   releaseDate: Date;
   url: string;
+  cover: string
 }
 
 interface TrackCreationAttributes extends Optional<TrackAttributes, 'id'> {}
@@ -16,10 +17,11 @@ interface TrackCreationAttributes extends Optional<TrackAttributes, 'id'> {}
 class Track extends Model<TrackAttributes, TrackCreationAttributes> implements TrackAttributes {
   public id!: number;
   public title!: string;
-  public artistId!: number;
+  public artist!: string;
   public price!: number;
   public releaseDate!: Date;
   public url!: string;
+  public cover!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -36,8 +38,8 @@ Track.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    artistId: {
-      type: DataTypes.INTEGER,
+    artist: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     price: {
@@ -52,6 +54,10 @@ Track.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    cover: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize,
@@ -59,9 +65,9 @@ Track.init(
   }
 );
 
-Track.belongsTo(Artist, {
+/* Track.belongsTo(Artist, {
   foreignKey: 'artistId',
   as: 'artist',
-});
+}); */
 
 export default Track;

@@ -6,14 +6,15 @@ import Track from '../../../../../db/models/track';
 export async function POST(req: Request) {
   await sequelize.sync();
   try {
-    const { title, artistId, price, releaseDate, url } = await req.json();
+    const { title, artist, price, releaseDate, url, cover } = await req.json();
 
     const newTrack = await Track.create({
       title,
-      artistId,
+      artist,
       price,
       releaseDate,
       url,
+      cover
     });
 
     return NextResponse.json(newTrack, { status: 201 });

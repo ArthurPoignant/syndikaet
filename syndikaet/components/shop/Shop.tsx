@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
-interface Product {
+interface Merch {
   id?: string;
   name: string;
   description: string;
@@ -11,46 +11,86 @@ interface Product {
   stock: number; // Add this line
 }
 
+interface Track {
+  id?: string;
+  title: string;
+  artist: string;
+  description: string;
+  url: string;
+  cover: string;
+  price: number;
+  releaseDate: string;
+}
+
 const Shop = () => {
-  const [activeSection, setActiveSection] = useState<"Merch" | "Tracks">(
+  const [activeSection, setActiveSection] = useState<"Merch" | "Track">(
     "Merch"
   );
-  const [products, setProducts] = useState<Product[]>([]);
+  const [merchProducts, setMerchProducts] = useState<Merch[]>([]);
+  const [trackProducts, setTrackProducts] = useState<Track[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [newProduct, setNewProduct] = useState<Product>({
+  const [selectedProduct, setSelectedProduct] = useState<Merch | Track | null>(
+    null
+  );
+  const [newProduct, setNewProduct] = useState<Merch | Track>({
     name: "",
     description: "",
     imageUrl: "",
     price: 0,
     stock: 0,
+    title: "", // For Track
+    artist: "", // For Track
+    releaseDate: "", // For Track
   });
 
   // Fetch products on page load
   useEffect(() => {
-    fetch("/api/merch/getAll")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-      })
-      .catch((err) => console.error("Error fetching products:", err));
-  }, []);
+    const fetchProducts = async () => {
+      try {
+        if (activeSection === "Merch") {
+          const res = await fetch("/api/merch/getAll");
+          const data = await res.json();
+          setMerchProducts(data);
+        } else {
+          const res = await fetch("/api/track/getAll");
+          const data = await res.json();
+          setTrackProducts(data);
+        }
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    };
 
-  const openModal = (product: Product | null = null) => {
+    fetchProducts();
+  }, [activeSection]);
+
+  const openModal = (product: Merch | Track | null = null) => {
     if (product) {
       setIsEditMode(true);
       setSelectedProduct(product);
       setNewProduct(product);
     } else {
       setIsEditMode(false);
-      setNewProduct({
-        name: "",
-        description: "",
-        imageUrl: "",
-        price: 0,
-        stock: 0,
-      });
+      setNewProduct(
+        activeSection === "Merch"
+          ? {
+              name: "",
+              description: "",
+              imageUrl: "",
+              price: 0,
+              stock: 0,
+            }
+          : {
+              title: "",
+              artist: "",
+              description: "",
+              url: "",
+              cover: "",
+              price: 0,
+              releaseDate: "",
+            }
+      );
     }
     setIsModalOpen(true);
   };
@@ -74,8 +114,8 @@ const Shop = () => {
     e.preventDefault();
     const apiUrl =
       isEditMode && selectedProduct
-        ? `/api/merch/${selectedProduct.id}/update`
-        : "/api/merch/create";
+        ? `/api/${activeSection.toLowerCase()}/${selectedProduct.id}/update`
+        : `/api/${activeSection.toLowerCase()}/create`;
 
     const method = isEditMode ? "PUT" : "POST";
 
@@ -89,15 +129,27 @@ const Shop = () => {
       });
 
       if (res.ok) {
-        const updatedProduct: Product = await res.json();
-        if (isEditMode) {
-          setProducts((prev) =>
-            prev.map((prod) =>
-              prod.id === updatedProduct.id ? updatedProduct : prod
-            )
-          );
+        const updatedProduct = await res.json();
+        if (activeSection === "Merch") {
+          if (isEditMode) {
+            setMerchProducts((prev) =>
+              prev.map((prod) =>
+                prod.id === updatedProduct.id ? updatedProduct : prod
+              )
+            );
+          } else {
+            setMerchProducts((prev) => [...prev, updatedProduct]);
+          }
         } else {
-          setProducts((prev) => [...prev, updatedProduct]);
+          if (isEditMode) {
+            setTrackProducts((prev) =>
+              prev.map((prod) =>
+                prod.id === updatedProduct.id ? updatedProduct : prod
+              )
+            );
+          } else {
+            setTrackProducts((prev) => [...prev, updatedProduct]);
+          }
         }
         closeModal();
       }
@@ -112,13 +164,18 @@ const Shop = () => {
     }
 
     try {
-      const res = await fetch(`/api/merch/${id}/delete`, { method: "DELETE" });
+      const apiUrl = `/api/${activeSection.toLowerCase()}/${id}/delete`;
+      const res = await fetch(apiUrl, { method: "DELETE" });
 
       if (res.ok) {
-        setProducts((prev) => prev.filter((prod) => prod.id !== id));
+        if (activeSection === "Merch") {
+          setMerchProducts((prev) => prev.filter((prod) => prod.id !== id));
+        } else {
+          setTrackProducts((prev) => prev.filter((prod) => prod.id !== id));
+        }
       }
     } catch (error) {
-      console.error("Error deleting product:", error);
+      console.error(`Error deleting ${activeSection.toLowerCase()}:`, error);
     }
   };
 
@@ -139,9 +196,9 @@ const Shop = () => {
         </a>
         <a
           className={`px-4 py-2 font-semibold text-lg rounded ${
-            activeSection === "Tracks" ? "text-pink-500" : "text-black"
+            activeSection === "Track" ? "text-pink-500" : "text-black"
           }`}
-          onClick={() => setActiveSection("Tracks")}
+          onClick={() => setActiveSection("Track")}
         >
           Tracks
         </a>
@@ -155,27 +212,65 @@ const Shop = () => {
       </button>
 
       <div className="w-full max-w-full p-4 flex flex-wrap justify-around mx-auto">
-        {products.length === 0 ? (
-          <p className="text-gray-600">No merch available</p>
+        {activeSection === "Merch" ? (
+          merchProducts.length === 0 ? (
+            <p className="text-gray-600">No merch available</p>
+          ) : (
+            merchProducts.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white text-black shadow-lg rounded-lg overflow-hidden w-80 mx-auto mb-8"
+              >
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={400}
+                  height={200}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-lg">{product.name}</h3>
+                  <p className="text-gray-600">{product.description}</p>
+                  <p className="font-bold">${product.price}</p>
+                  <p>stock: {product.stock}</p>
+                </div>
+                <div className="flex space-x-2 p-4">
+                  <button
+                    onClick={() => openModal(product)}
+                    className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => product.id && handleDelete(product.id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          )
+        ) : trackProducts.length === 0 ? (
+          <p className="text-gray-600">No tracks available</p>
         ) : (
-          products.map((product) => (
+          trackProducts.map((product) => (
             <div
               key={product.id}
               className="bg-white text-black shadow-lg rounded-lg overflow-hidden w-80 mx-auto mb-8"
             >
-              {/* Image de l'article */}
               <Image
-                src={product.imageUrl}
-                alt={product.name}
+                src={product.cover}
+                alt={product.title}
                 width={400}
                 height={200}
                 className="w-full h-48 object-cover"
               />
               <div className="p-4">
-                <h3 className="font-bold text-lg">{product.name}</h3>
+                <h3 className="font-bold text-lg">{product.title}</h3>
                 <p className="text-gray-600">{product.description}</p>
                 <p className="font-bold">${product.price}</p>
-                <p>stock: {product.stock}</p>
+                <p>Release Date: {product.releaseDate}</p>
               </div>
               <div className="flex space-x-2 p-4">
                 <button
@@ -203,77 +298,175 @@ const Shop = () => {
             <h2 className="text-2xl font-bold mb-4">
               {isEditMode ? "Edit" : "Add"} {activeSection}
             </h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block mb-1">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={newProduct.name}
-                  onChange={handleInputChange}
-                  className="w-full border rounded p-2"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1">Description</label>
-                <textarea
-                  name="description"
-                  value={newProduct.description}
-                  onChange={handleInputChange}
-                  className="w-full border rounded p-2"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1">Image URL</label>
-                <input
-                  type="text"
-                  name="imageUrl"
-                  value={newProduct.imageUrl}
-                  onChange={handleInputChange}
-                  className="w-full border rounded p-2"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1">Price</label>
-                <input
-                  type="number"
-                  name="price"
-                  value={newProduct.price}
-                  onChange={handleInputChange}
-                  className="w-full border rounded p-2"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1">Stock</label>
-                <input
-                  type="number"
-                  name="stock"
-                  value={newProduct.stock}
-                  onChange={handleInputChange}
-                  className="w-full border rounded p-2"
-                  required
-                />
-              </div>
-              <div className="flex justify-end space-x-4">
-                <button
-                  type="button"
-                  className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-                >
-                  {isEditMode ? "Update" : "Add"} {activeSection}
-                </button>
-              </div>
-            </form>
+            {activeSection === "Merch" ? (
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label className="block mb-1">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={(newProduct as Merch).name}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Description</label>
+                  <textarea
+                    name="description"
+                    value={newProduct.description}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Image URL</label>
+                  <input
+                    type="text"
+                    name="cover"
+                    value={(newProduct as Track).cover}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Price</label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={newProduct.price}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Stock</label>
+                  <input
+                    type="number"
+                    name="stock"
+                    value={(newProduct as Merch).stock}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="flex justify-end space-x-4">
+                  <button
+                    type="button"
+                    className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                  >
+                    {isEditMode ? "Update" : "Add"} Merch
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label className="block mb-1">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={(newProduct as Track).title}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Artist</label>
+                  <input
+                    type="text"
+                    name="artist"
+                    value={(newProduct as Track).artist}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Description</label>
+                  <textarea
+                    name="description"
+                    value={newProduct.description}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Image URL</label>
+                  <input
+                    type="text"
+                    name="cover"
+                    value={(newProduct as Track).cover}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Price</label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={newProduct.price}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-1">Release Date</label>
+                  <input
+                    type="date"
+                    name="releaseDate"
+                    value={(newProduct as Track).releaseDate}
+                    onChange={handleInputChange}
+                    className="w-full border rounded p-2"
+                    required
+                  />
+                </div>
+                {activeSection === "Track" && (
+                  <div className="mb-4">
+                    <label className="block mb-1">Cover</label>
+                    <input
+                      type="text"
+                      name="cover"
+                      value={(newProduct as Track).cover}
+                      onChange={handleInputChange}
+                      className="w-full border rounded p-2"
+                      required
+                    />
+                  </div>
+                )}
+                <div className="flex justify-end space-x-4">
+                  <button
+                    type="button"
+                    className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                  >
+                    {isEditMode ? "Update" : "Add"} Track
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}
